@@ -36,9 +36,52 @@
       color: #007aff;
       text-decoration: none;
     }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #121212;
+        color: #ffffff;
+      }
+      a {
+        color: #0a84ff;
+      }
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .theme-toggle select {
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #333;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    @media (prefers-color-scheme: dark) {
+      .theme-toggle select {
+        background-color: #1e1e1e;
+        color: #fff;
+        border: 1px solid #444;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="theme-toggle">
+    <label>
+      <select id="themeSelect">
+        <option value="auto">Auto Mode</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+  </div>
   <div class="container">
     <p><a href="index.html">← Back to Support Page</a></p>
     <h1>Privacy Policy</h1>
@@ -58,5 +101,22 @@
     <h2>Contact</h2>
     <p>If you have any questions contact me at:<br><a href="mailto:ezdahmad@gmail.com">ezdahmad@gmail.com</a></p>
   </div>
+  <script>
+    const themeSelect = document.getElementById('themeSelect');
+    function applyTheme(mode) {
+      document.documentElement.setAttribute('data-theme', mode);
+      if (mode === 'dark') {
+        document.body.style.background = '#121212';
+        document.body.style.color = '#ffffff';
+      } else if (mode === 'light') {
+        document.body.style.background = '#fafafa';
+        document.body.style.color = '#333333';
+      } else {
+        document.body.style.background = '';
+        document.body.style.color = '';
+      }
+    }
+    themeSelect.addEventListener('change', () => applyTheme(themeSelect.value));
+  </script>
 </body>
 </html>
