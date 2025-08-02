@@ -5,10 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy — Ezdahmad</title>
   <style>
+    :root {
+      --bg-color: #fafafa;
+      --text-color: #333333;
+      --link-color: #007aff;
+    }
+    [data-theme="dark"] {
+      --bg-color: #202020;
+      --text-color: #ffffff;
+      --link-color: #0a84ff;
+    }
+    [data-theme="light"] {
+      --bg-color: #fafafa;
+      --text-color: #333333;
+      --link-color: #007aff;
+    }
     body {
       font-family: system-ui, sans-serif;
-      background: #fafafa;
-      color: #333;
+      background: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -33,17 +48,8 @@
       margin-bottom: 0.5rem;
     }
     a {
-      color: #007aff;
+      color: var(--link-color);
       text-decoration: none;
-    }
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #121212;
-        color: #ffffff;
-      }
-      a {
-        color: #0a84ff;
-      }
     }
     .theme-toggle {
       position: fixed;
@@ -56,19 +62,12 @@
       font-size: 0.9rem;
       border: 1px solid #ccc;
       border-radius: 8px;
-      background-color: #ffffff;
-      color: #333;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    @media (prefers-color-scheme: dark) {
-      .theme-toggle select {
-        background-color: #1e1e1e;
-        color: #fff;
-        border: 1px solid #444;
-      }
     }
   </style>
 </head>
@@ -103,20 +102,38 @@
   </div>
   <script>
     const themeSelect = document.getElementById('themeSelect');
+
+    // Function to detect system dark mode
+    function systemPrefersDark() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    // Apply theme based on LocalStorage or default to auto detection
+    const savedTheme = localStorage.getItem('themePreference') || 'auto';
+    themeSelect.value = savedTheme;
+
     function applyTheme(mode) {
-      document.documentElement.setAttribute('data-theme', mode);
-      if (mode === 'dark') {
-        document.body.style.background = '#121212';
-        document.body.style.color = '#ffffff';
-      } else if (mode === 'light') {
-        document.body.style.background = '#fafafa';
-        document.body.style.color = '#333333';
+      if (mode === 'auto') {
+        document.documentElement.setAttribute('data-theme', systemPrefersDark() ? 'dark' : 'light');
       } else {
-        document.body.style.background = '';
-        document.body.style.color = '';
+        document.documentElement.setAttribute('data-theme', mode);
       }
     }
-    themeSelect.addEventListener('change', () => applyTheme(themeSelect.value));
+
+    applyTheme(savedTheme);
+
+    themeSelect.addEventListener('change', () => {
+      const mode = themeSelect.value;
+      localStorage.setItem('themePreference', mode);
+      applyTheme(mode);
+    });
+
+    // Listen to system theme changes in auto mode
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (themeSelect.value === 'auto') {
+        applyTheme('auto');
+      }
+    });
   </script>
 </body>
 </html>
