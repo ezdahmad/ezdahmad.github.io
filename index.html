@@ -76,10 +76,10 @@
   <meta name="theme-color" content="#202020" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
+  <script src="version.js"></script>
   <script>
     if ('serviceWorker' in navigator && !location.hostname.includes('localhost') && !location.hostname.includes('127.0.0.1')) {
-      const version = Date.now(); // Use timestamp for cache-busting
-      navigator.serviceWorker.register(`/service-worker.js?version=${version}`);
+      navigator.serviceWorker.register(`/service-worker.js?version=${CACHE_VERSION}`);
     }
   </script>
 </head>
