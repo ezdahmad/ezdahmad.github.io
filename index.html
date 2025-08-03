@@ -97,7 +97,10 @@
   <script src="version.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register(`/service-worker.js?version=${CACHE_VERSION}`);
+      navigator.serviceWorker.register(
+        `/service-worker.js?version=${CACHE_VERSION}`,
+        { updateViaCache: 'none' }
+      );
     }
   </script>
 </head>
