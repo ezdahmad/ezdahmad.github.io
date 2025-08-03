@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ezdahmad-cache-v1';
+const CACHE_NAME = 'ezdahmad-cache-' + (self.registration.scope.split('?version=')[1] || 'v1');
 const urlsToCache = [
   '/',
   '/index.html',
@@ -35,6 +35,7 @@ self.addEventListener('fetch', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
+      console.log('Activating service worker with cache:', CACHE_NAME);
       return Promise.all(
         cacheNames.filter(name => name !== CACHE_NAME)
                   .map(name => caches.delete(name))
