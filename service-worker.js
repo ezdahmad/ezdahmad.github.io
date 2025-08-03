@@ -15,11 +15,19 @@ self.addEventListener('install', event => {
   );
 });
 
-// Serve from cache, fallback to network
+// Serve from cache, fallback to network, with offline fallback for documents
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
-      .then(response => response || fetch(event.request))
+      .then(response => {
+        // Return cached response if found, otherwise fetch from network
+        return response || fetch(event.request).catch(() => {
+          // Fallback content for offline (optional: can customize per request)
+          if (event.request.destination === 'document') {
+            return caches.match('/index.html');
+          }
+        });
+      })
   );
 });
 
