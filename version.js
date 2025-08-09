@@ -1,4 +1,4 @@
 
 
 // version.js
-const CACHE_VERSION = '2025-08-03-06'; // Update this on every deploy
+const CACHE_VERSION = '2025-08-03-09'; // Update this on every deploy

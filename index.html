@@ -95,14 +95,53 @@
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <script src="version.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register(
-        `/service-worker.js?version=${CACHE_VERSION}`,
-        { updateViaCache: 'none' }
-      );
+<script>
+(async () => {
+  if (!('serviceWorker' in navigator)) return;
+
+  // 🔧 Kill switch: add ?sw-kill=1 to the URL once to nuke old SW + caches
+  if (location.search.includes('sw-kill=1')) {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister()));
+      if (window.caches) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+    } finally {
+      location.replace(location.origin + location.pathname);
     }
-  </script>
+    return;
+  }
+
+  const reg = await navigator.serviceWorker.register(
+    `/service-worker.js?version=${CACHE_VERSION}`,
+    { updateViaCache: 'none' }
+  );
+
+  // If a new SW is waiting already, tell it to take over now.
+  if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+
+  // When a new SW installs, ask it to skip waiting.
+  reg.addEventListener('updatefound', () => {
+    const sw = reg.installing;
+    if (!sw) return;
+    sw.addEventListener('statechange', () => {
+      if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+        sw.postMessage({ type: 'SKIP_WAITING' });
+      }
+    });
+  });
+
+  // Auto‑reload exactly once when the new SW controls the page.
+  let refreshed = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshed) return;
+    refreshed = true;
+    location.reload();
+  });
+})();
+</script>
 </head>
 <body>
   <div class="theme-toggle">
