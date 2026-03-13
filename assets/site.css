@@ -171,14 +171,14 @@ a {
   border-radius: 20px;
   background: var(--surface-color);
   box-shadow: var(--menu-shadow);
-  opacity: 0;
+  visibility: hidden;
   transform: translateY(-6px);
   pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: transform 0.18s ease, visibility 0.18s ease;
 }
 
 .theme-toggle.is-open .theme-toggle__menu {
-  opacity: 1;
+  visibility: visible;
   transform: translateY(0);
   pointer-events: auto;
 }
