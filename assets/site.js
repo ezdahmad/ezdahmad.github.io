@@ -11,6 +11,14 @@ function systemPrefersDark() {
 function applyTheme(mode) {
   const nextTheme = mode === "auto" ? (systemPrefersDark() ? "dark" : "light") : mode;
   document.documentElement.setAttribute("data-theme", nextTheme);
+  syncThemeImages(nextTheme);
+}
+
+function syncThemeImages(theme) {
+  document.querySelectorAll("[data-theme-image]").forEach((image) => {
+    const nextSrc = theme === "dark" ? image.dataset.darkSrc : image.dataset.lightSrc;
+    if (nextSrc) image.src = nextSrc;
+  });
 }
 
 function initializeThemeToggle() {
