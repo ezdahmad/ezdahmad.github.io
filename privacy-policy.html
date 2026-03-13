@@ -3,92 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ezdahmad - PrivacyPolicy</title>
-  <style>
-    :root {
-      --bg-color: #fafafa;
-      --text-color: #333333;
-      --link-color: #007aff;
-    }
-    [data-theme="dark"] {
-      --bg-color: #202020;
-      --text-color: #ffffff;
-      --link-color: #0a84ff;
-    }
-    [data-theme="light"] {
-      --bg-color: #fafafa;
-      --text-color: #333333;
-      --link-color: #007aff;
-    }
-    body {
-      font-family: system-ui, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      text-align: left;
-    }
-    .container {
-      max-width: 500px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 2.5rem;
-      margin-bottom: 0.25rem;
-    }
-    p {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 0.5rem;
-    }
-    a {
-      color: var(--link-color);
-      text-decoration: none;
-    }
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-    .theme-toggle select {
-      padding: 6px 10px;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+  <title>Ezdahmad - Privacy Policy</title>
+  <link rel="stylesheet" href="assets/site.css?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#202020" media="(prefers-color-scheme: dark)">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
 </head>
-<body>
-  <div class="theme-toggle">
-    <label>
-      <select id="themeSelect">
-        <option value="auto">Auto Mode</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
+<body class="page-privacy">
+  <div class="theme-toggle" data-theme-toggle>
+    <button type="button" class="theme-toggle__button" data-theme-button aria-haspopup="listbox" aria-expanded="false">
+      <span class="theme-toggle__current" data-theme-current>Auto Mode</span>
+      <span class="theme-toggle__chevron" aria-hidden="true"></span>
+    </button>
+    <div class="theme-toggle__menu" role="listbox" aria-label="Theme">
+      <button type="button" class="theme-toggle__option" data-theme-option="auto" role="option" aria-selected="false">Auto Mode</button>
+      <button type="button" class="theme-toggle__option" data-theme-option="light" role="option" aria-selected="false">Light</button>
+      <button type="button" class="theme-toggle__option" data-theme-option="dark" role="option" aria-selected="false">Dark</button>
+    </div>
   </div>
+
   <div class="container">
-    <p><a href="index.html">← Back to Support Page</a></p>
+    <p><a href="index.html">&larr; Back to Support Page</a></p>
     <h1>Privacy Policy</h1>
     <p>Effective Date: August 2025</p>
 
@@ -101,42 +39,9 @@
     <p>My apps do not integrate with third-party services that collect user data.</p>
 
     <h2>In-App Purchases</h2>
-    <p>In-app purchases are handled securely by Apple’s App Store infrastructure. I do not have access to any payment information.</p>
+    <p>In-app purchases are handled securely by Apple's App Store infrastructure. I do not have access to any payment information.</p>
   </div>
-  <script>
-    const themeSelect = document.getElementById('themeSelect');
 
-    // Function to detect system dark mode
-    function systemPrefersDark() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    // Apply theme based on LocalStorage or default to auto detection
-    const savedTheme = localStorage.getItem('themePreference') || 'auto';
-    themeSelect.value = savedTheme;
-
-    function applyTheme(mode) {
-      if (mode === 'auto') {
-        document.documentElement.setAttribute('data-theme', systemPrefersDark() ? 'dark' : 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', mode);
-      }
-    }
-
-    applyTheme(savedTheme);
-
-    themeSelect.addEventListener('change', () => {
-      const mode = themeSelect.value;
-      localStorage.setItem('themePreference', mode);
-      applyTheme(mode);
-    });
-
-    // Listen to system theme changes in auto mode
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (themeSelect.value === 'auto') {
-        applyTheme('auto');
-      }
-    });
-  </script>
+  <script src="assets/site.js?v=1" defer></script>
 </body>
 </html>

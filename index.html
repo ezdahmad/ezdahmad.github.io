@@ -4,90 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ezdahmad</title>
-  <style>
-    :root {
-      --bg-color: #fafafa;
-      --text-color: #333333;
-      --link-color: #007aff;
-    }
-    [data-theme="dark"] {
-      --bg-color: #202020;
-      --text-color: #ffffff;
-      --link-color: #0a84ff;
-    }
-    [data-theme="light"] {
-      --bg-color: #fafafa;
-      --text-color: #333333;
-      --link-color: #007aff;
-    }
-    body {
-      font-family: system-ui, sans-serif;
-      background: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      text-align: left;
-    }
-    .container {
-      max-width: 500px;
-    }
-    h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 2.5rem;
-      margin-bottom: 0.25rem;
-    }
-    p {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 0.5rem;
-    }
-    a {
-      color: var(--link-color);
-      text-decoration: none;
-    }
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-    .theme-toggle select {
-      padding: 6px 10px;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .social-media {
-      display: flex;
-      gap: 20px;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      filter: invert(0%);
-      transition: filter 0.3s ease;
-      image-rendering: auto;
-    }
-
-    [data-theme="dark"] .social-icon {
-      filter: invert(100%);
-    }
-  </style>
+  <link rel="stylesheet" href="assets/site.css?v=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
@@ -95,16 +12,19 @@
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
 </head>
-<body>
-  <div class="theme-toggle">
-    <label>
-      <select id="themeSelect">
-        <option value="auto">Auto Mode</option>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    </label>
+<body class="page-home">
+  <div class="theme-toggle" data-theme-toggle>
+    <button type="button" class="theme-toggle__button" data-theme-button aria-haspopup="listbox" aria-expanded="false">
+      <span class="theme-toggle__current" data-theme-current>Auto Mode</span>
+      <span class="theme-toggle__chevron" aria-hidden="true"></span>
+    </button>
+    <div class="theme-toggle__menu" role="listbox" aria-label="Theme">
+      <button type="button" class="theme-toggle__option" data-theme-option="auto" role="option" aria-selected="false">Auto Mode</button>
+      <button type="button" class="theme-toggle__option" data-theme-option="light" role="option" aria-selected="false">Light</button>
+      <button type="button" class="theme-toggle__option" data-theme-option="dark" role="option" aria-selected="false">Dark</button>
+    </div>
   </div>
+
   <div class="container">
     <h1>Ezdahmad</h1>
     <p>This is the official page for my apps.</p>
@@ -113,7 +33,7 @@
     <p>Learn how I handle your data and privacy.<br><a href="privacy-policy.html">Privacy Policy</a></p>
 
     <h2>Communication</h2>
-    <p>For contact and support inquiries:<br><a href="mailto:contact@ezdahmad.ca">contact@ezdahmad.ca</a></p> 
+    <p>For contact and support inquiries:<br><a href="mailto:contact@ezdahmad.ca">contact@ezdahmad.ca</a></p>
 
     <h2>Social Media</h2>
     <div class="social-media">
@@ -123,40 +43,7 @@
       <a href="https://behance.net/ezdahmad" target="_blank"><img src="assets/icons/behance-logo.png" alt="Behance" class="social-icon"></a>
     </div>
   </div>
-  <script>
-    const themeSelect = document.getElementById('themeSelect');
 
-    // Function to detect system dark mode
-    function systemPrefersDark() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    // Apply theme based on LocalStorage or default to auto detection
-    const savedTheme = localStorage.getItem('themePreference') || 'auto';
-    themeSelect.value = savedTheme;
-
-    function applyTheme(mode) {
-      if (mode === 'auto') {
-        document.documentElement.setAttribute('data-theme', systemPrefersDark() ? 'dark' : 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', mode);
-      }
-    }
-
-    applyTheme(savedTheme);
-
-    themeSelect.addEventListener('change', () => {
-      const mode = themeSelect.value;
-      localStorage.setItem('themePreference', mode);
-      applyTheme(mode);
-    });
-
-    // Listen to system theme changes in auto mode
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (themeSelect.value === 'auto') {
-        applyTheme('auto');
-      }
-    });
-  </script>
+  <script src="assets/site.js?v=1" defer></script>
 </body>
 </html>
